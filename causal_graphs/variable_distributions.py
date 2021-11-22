@@ -259,7 +259,7 @@ class IndependentCategProduct(object):
 
 class NNCateg(object):
 
-    def __init__(self, input_names, input_num_categs, num_categs):
+    def __init__(self, input_names, input_num_categs, num_categs, embed_dim=4):
         """
         Randomly initialized neural network that models an arbitrary conditional distribution.
         The network consists of a 2-layer network with LeakyReLU activation and an embedding
@@ -277,7 +277,7 @@ class NNCateg(object):
                      Number of categories over which the conditional distribution should be. 
         """
         num_hidden = 48
-        embed_dim = 4
+        embed_dim = embed_dim
         self.embed_module = nn.Embedding(sum(input_num_categs), embed_dim)
         self.net = nn.Sequential(nn.Linear(embed_dim*len(input_num_categs), num_hidden),
                                  nn.LeakyReLU(0.1),
@@ -373,7 +373,7 @@ def _random_categ(size, scale=1.0, axis=-1):
     return val_grid
 
 
-def get_random_categorical(input_names, input_num_categs, num_categs, inputs_independent=True, use_nn=False, deterministic=False, **kwargs):
+def get_random_categorical(input_names, input_num_categs, num_categs, inputs_independent=True, use_nn=False, embed_dim=4, deterministic=False, **kwargs):
     """
     Returns a randomly generated, conditional distribution for categorical variables.
 
@@ -403,7 +403,7 @@ def get_random_categorical(input_names, input_num_categs, num_categs, inputs_ind
     elif deterministic:
         prob_func = CategProduct(input_names, input_num_categs, num_categs, deterministic=deterministic)
     elif use_nn:
-        prob_func = NNCateg(input_names, input_num_categs, num_categs)
+        prob_func = NNCateg(input_names, input_num_categs, num_categs, embed_dim)
     elif inputs_independent:
         prob_func = IndependentCategProduct(input_names, input_num_categs, num_categs)
     else:

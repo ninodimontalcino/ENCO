@@ -361,6 +361,7 @@ def generate_categorical_graph(num_vars,
                                deterministic=False,
                                graph_func=generate_random_graph,
                                seed=-1,
+                               embed_dim = 4,
                                **kwargs):
     """
     Summarizes the whole generation process for a graph with categorical variables. Returns a CausalDAG object.
@@ -411,6 +412,7 @@ def generate_categorical_graph(num_vars,
                                       num_categs=num_categs,
                                       inputs_independent=inputs_independent,
                                       use_nn=use_nn,
+                                      embed_dim = embed_dim,
                                       deterministic=deterministic)
         return dist
 
