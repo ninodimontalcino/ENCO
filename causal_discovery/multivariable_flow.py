@@ -275,19 +275,19 @@ if __name__ == '__main__':
     batch_size, num_vars = 32, 2
     torch.manual_seed(42)
     x = torch.randn(batch_size, num_vars)
-    print(f'{x[0]=}')
+    #print(f'{x[0]=}')
 
     mask = (torch.arange(num_vars)[None] < torch.arange(num_vars)[:,None])[None].expand(batch_size, -1, -1)
     mask.fill_(1)
-    print(f'{mask[0]=}')
+    #print(f'{mask[0]=}')
     print('Creating model...')
     flow = create_flow_model(num_vars=num_vars, hidden_dims=[32,32])
     print('Running model...')
     nll = flow(x, mask)
-    print(f'{nll[0]=}')
+    #print(f'{nll[0]=}')
     x[0,0] = -10.0
     nll = flow(x, mask)
-    print(f'{nll[0]=}')
+    #print(f'{nll[0]=}')
 
     optimizer = torch.optim.Adam(flow.parameters(), lr=1e-3)
     t = tqdm(range(1000))
